@@ -8,46 +8,42 @@ public class StepTraker {
     HashMap<String, ArrayList<Integer>> monthOfDay;
     ArrayList<Integer> daysInMonth;
 
-    int[] days = new int[30];
-
     StepTraker(String[] months) {
         monthOfDay = new HashMap<>();
         for (String month : months) {
-        monthOfDay.put(month, daysInMonth);
-    }
-    daysInMonth = new ArrayList<>();
-        for (int i : days) {
-            daysInMonth.add(i);
+            monthOfDay.put(month, new ArrayList<>());
         }
-}
 
-void addSteps(String month, int day, int step) {
-    if (step >=0) {
-        daysInMonth.set((day-1), step);
-        monthOfDay.put(month, daysInMonth);
-        System.out.println("Шаги сохранены.");
-    } else {
-        System.out.println("Количество шагов не может быть отрицательным.");
-    }
     }
 
-void goStepsInDay (String month) {
+    void addSteps(String month, int day, int step) {
+        daysInMonth = new ArrayList<>();
+        if (step >=0) {
+            daysInMonth.set((day-1), step);
+            monthOfDay.put(month, new ArrayList<>());
+            System.out.println("Шаги сохранены.");
+        } else {
+            System.out.println("Количество шагов не может быть отрицательным.");
+        }
+    }
+
+    void goStepsInDay (String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         for (int i = 0; i < stepsPerDay.size(); i++) {
             System.out.println((i+1) + " день: " + stepsPerDay.get(i));
         }
-}
+    }
 
-void sumStepMonth(String month) {
+    void sumStepMonth(String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         int sumStepMonth = 0;
         for (Integer sumStep : stepsPerDay) {
-           sumStepMonth += sumStep;
+            sumStepMonth += sumStep;
         }
-       System.out.println("За месяц вы прошли " + sumStepMonth + " шагов.");
-}
+        System.out.println("За месяц вы прошли " + sumStepMonth + " шагов.");
+    }
 
-void maxStepMounth(String month) {
+    void maxStepMounth(String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         int maxStepMonth = 0;
         for (Integer max : stepsPerDay) {
@@ -56,9 +52,9 @@ void maxStepMounth(String month) {
             }
         }
         System.out.println("Максимальное количество шагов за " + month + " - " + maxStepMonth);
-}
+    }
 
-void  averageStepMonth (String month) {
+    void  averageStepMonth (String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         int sumStepMonth = 0;
         for (Integer sumStep : stepsPerDay) {
@@ -66,38 +62,39 @@ void  averageStepMonth (String month) {
         }
         int avergeStepMonth = sumStepMonth / stepsPerDay.size();
         System.out.println("Среднее количество шагов за " + month + " - " + avergeStepMonth);
-}
+    }
 
-void distanceCovered(String month) {
+    void distanceCovered(String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         int sumStepMonth = 0;
         for (Integer sumStep : stepsPerDay) {
             sumStepMonth += sumStep;
         }
         System.out.println("Пройденная дистанция за " + month + " - " + converter.distanceInKilometres(sumStepMonth) + " Километров");
-}
+    }
 
-void energySpent (String month) {
+    void energySpent (String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         int sumStepMonth = 0;
         for (Integer sumStep : stepsPerDay) {
             sumStepMonth += sumStep;
         }
         System.out.println("Сожжено за " + month + " - " + converter.cCal(sumStepMonth) + " килокалорий");
-}
+    }
 
-void bestSeries(int ambitionStep, String month) {
+    void bestSeries(int ambitionStep, String month) {
         ArrayList<Integer> stepsPerDay = monthOfDay.get(month);
         ArrayList<Integer> listBestSeries = new ArrayList<>();
         int dayRow = 0;
-        for (int i = 0; i < stepsPerDay.size(); i++) {
+        int i = 0;
+        while (i < stepsPerDay.size()) {
             if (stepsPerDay.get(i) > ambitionStep) {
-                if (i - (i - 1) == 1) {
-                    dayRow++;
-                    System.out.println("серия - " + dayRow + " дней.");
-                }
+                dayRow++;
+                System.out.println("серия - " + dayRow + " дней.");
+
             }
             listBestSeries.add(dayRow);
+            i++;
         }
 
         int bestSeries = 0;
@@ -107,10 +104,10 @@ void bestSeries(int ambitionStep, String month) {
             }
         }
         System.out.println("Лучшая серия - " + (bestSeries) + " дней.");
-}
-       int newAmbitionStep() {
+    }
+    int newAmbitionStep() {
         System.out.println("Введите новую цель по шагам в день");
 
         return scanner.nextInt();
-       }
+    }
 }
